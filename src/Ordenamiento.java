@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.management.MemoryType;
 
 public class Ordenamiento {
     private JTextArea textDesordenado;
@@ -9,6 +8,7 @@ public class Ordenamiento {
     private JTextArea textOrdenado;
     private JComboBox cbMetodos;
     private JPanel pGeneral;
+    private JButton LIMPIARButton;
 
     int [] array=new int[20];
     public Ordenamiento() {
@@ -20,6 +20,18 @@ public class Ordenamiento {
                     textOrdenado.setText("");
                     burbujaGUI();
                 }
+                if(cbMetodos.getSelectedIndex()==2){
+                    textDesordenado.setText("");
+                    textOrdenado.setText("");
+                    seleccionGUI();
+                }
+            }
+        });
+
+        LIMPIARButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                limpiar();
             }
         });
     }
@@ -80,6 +92,7 @@ public class Ordenamiento {
         return pasos;
 
     }
+
     public void seleccionGUI(){
         int tam=array.length;
         for (int i=0; i<tam; i++)
@@ -93,6 +106,12 @@ public class Ordenamiento {
         for(int i=0; i<tam; i++)
             textOrdenado.append("\n"+array[i]);
         JOptionPane.showMessageDialog(null,"Iteraciones"+pasos);
+    }
+
+    public void limpiar(){
+        textOrdenado.setText("");
+        textDesordenado.setText("");
+
     }
 
     public static void main(String[] args) {
