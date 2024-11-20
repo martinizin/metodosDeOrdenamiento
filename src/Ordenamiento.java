@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.lang.management.MemoryType;
 
 public class Ordenamiento {
@@ -6,9 +8,20 @@ public class Ordenamiento {
     private JButton ORDENARButton;
     private JTextArea textOrdenado;
     private JComboBox cbMetodos;
+    private JPanel pGeneral;
 
     int [] array=new int[20];
     public Ordenamiento() {
+        ORDENARButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(cbMetodos.getSelectedIndex()==1){
+                    textDesordenado.setText("");
+                    textOrdenado.setText("");
+                    burbujaGUI();
+                }
+            }
+        });
     }
 
     public static int aleatorio(int max, int min){
@@ -32,7 +45,61 @@ public class Ordenamiento {
         return iteraciones;
 
     }
-    public void burbujaGUI(){
 
+    public void burbujaGUI(){
+        int tam=array.length;
+        for (int i=0; i<tam; i++)
+            array[i]=aleatorio(255,0);
+
+        for(int i=0; i<tam; i++)
+            textDesordenado.append("\n"+array[i]);
+
+        int pasos=burbuja(array);
+
+        for(int i=0; i<tam; i++)
+            textOrdenado.append("\n"+array[i]);
+        JOptionPane.showMessageDialog(null,"Iteraciones"+pasos);
+    }
+
+    public int seleccion(int []array){
+        int n=array.length;
+        int pasos=0;
+        for(int i=0; i<n-1;i++){
+            int min=i;
+            for(int j=i+1; j<n;j++){
+                pasos++;
+                if(array[j]<array[min]){
+                    min=j;
+                }
+            }
+            pasos++;
+            int aux=array[min];
+            array[min]=array[i];
+            array[i]=array[aux];
+        }
+        return pasos;
+
+    }
+    public void seleccionGUI(){
+        int tam=array.length;
+        for (int i=0; i<tam; i++)
+            array[i]=aleatorio(255,0);
+
+        for(int i=0; i<tam; i++)
+            textDesordenado.append("\n"+array[i]);
+
+        int pasos=seleccion(array);
+
+        for(int i=0; i<tam; i++)
+            textOrdenado.append("\n"+array[i]);
+        JOptionPane.showMessageDialog(null,"Iteraciones"+pasos);
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Ordenamiento");
+        frame.setContentPane(new Ordenamiento().pGeneral);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
     }
 }
